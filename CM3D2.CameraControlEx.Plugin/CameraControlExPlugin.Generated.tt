@@ -1,0 +1,36 @@
+<#@ template language="C#" hostspecific="true" #>
+<#@ output extension=".cs" #>
+<# /* Change Unity Engine Path */ #>
+<#@ assembly name="C:\Program Files\Unity\Editor\Data\Managed\UnityEngine.dll" #>
+<# /* ------------------------ */ #>
+<#@ import namespace="System" #>
+<#@ import namespace="UnityEngine" #>
+<#@ import namespace="System.Collections.Generic" #>
+<#
+    Dictionary<string,object> Properties = new Dictionary<string,object>();
+
+    string ClassName = "CameraControlExPlugin";
+    
+    Properties.Add("SpinRate", 1f);
+    Properties.Add("MoveRate", 0.05f);
+    
+    Properties.Add("FOV", -1f);
+    Properties.Add("FOVChange", 0.25f);
+    Properties.Add("FOVReset", KeyCode.KeypadMultiply);
+    Properties.Add("ZoomIn", KeyCode.KeypadPlus);
+    Properties.Add("ZoomOut", KeyCode.KeypadMinus);
+
+    Properties.Add("ToggleFine", KeyCode.KeypadDivide);
+    Properties.Add("EyeToCam", KeyCode.KeypadPeriod);
+    Properties.Add("Modifier", KeyCode.LeftAlt);
+    Properties.Add("Screenshot", KeyCode.Keypad0);
+    Properties.Add("Reset", KeyCode.Keypad5);
+
+    Properties.Add("MoveUp", KeyCode.Keypad3);
+    Properties.Add("MoveDown", KeyCode.Keypad1);
+    Properties.Add("MoveLeft", KeyCode.Keypad4);
+    Properties.Add("MoveRight", KeyCode.Keypad6);
+    Properties.Add("MoveForward", KeyCode.Keypad8);
+    Properties.Add("MoveBackward", KeyCode.Keypad2);
+#>
+<#@ include file="PluginConfigTemplate.tt" #>

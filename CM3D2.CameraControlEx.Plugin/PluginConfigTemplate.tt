@@ -1,0 +1,181 @@
+<#@ template language="C#" hostspecific="true" culture="en-US" #>
+<#@ output extension="cs" #>
+<# /* Change Unity Engine Path */ #>
+<#@ assembly name="C:\Program Files\Unity\Editor\Data\Managed\UnityEngine.dll" #>
+<# /* ------------------------ */ #>
+<#@ assembly name="System.Core" #>
+<#@ assembly name="EnvDTE" #>
+<# /* ------------------------ */ #>
+<#@ import namespace="UnityEngine" #>
+<#@ import namespace="System" #>
+<#@ import namespace="System.Linq" #>
+<#@ import namespace="System.IO" #>
+<#@ import namespace="System.Globalization" #>
+<#@ import namespace="System.Collections.Generic" #>
+<#@ import namespace="EnvDTE" #>
+<# /* ------------------------ */ #>
+<# 
+    DTE dte = ((DTE)((IServiceProvider)Host).GetService(typeof(DTE)));
+#>
+// ------------------------------------
+// Auto-Generated with T4 Templating on <#= dte.Name #> <#= dte.Version #>
+// Template File: <#= Path.GetFileName(Host.TemplateFile) #>
+// ------------------------------------
+// Install T4 Toolbox if having troubles
+// ------------------------------------
+
+using System;
+using System.Globalization;
+using System.Runtime.CompilerServices;
+
+using UnityEngine;
+
+namespace CM3D2.CameraControlEx.Plugin
+{
+    partial class <#= ClassName #>
+    {
+<#
+    PushIndent("    ");
+    PushIndent("    ");
+   
+
+    var _props = new List<Property>();
+
+    foreach(var p in Properties)
+        _props.Add(new Property(p.Key, p.Value));
+
+    _props = _props.OrderBy(p => p.Type.Name).ThenBy(p => p.Name).ToList();
+    
+    GenerateConfigs(_props);
+    Write("\r\n");
+    GenerateProperty(_props);
+
+    PopIndent();
+    PopIndent();
+ #>
+
+        #region Helper Methods
+
+        [CompilerGenerated]
+        private bool InitConfig(string section, string key, object value)
+        {
+            if (!Preferences.HasSection(section)
+                || !Preferences[section].HasKey(key)
+                || string.IsNullOrEmpty(Preferences[section][key].Value))
+            {
+                Preferences[section][key].Value = value.ToString();
+                return true;
+            }
+            return false;
+        }
+
+        [CompilerGenerated]
+        private static T ParseConvertible<T>(string value, T @default) where T : IConvertible
+        {
+            T retVal;
+            try
+            {
+                retVal = (T) ((IConvertible) value).ToType(typeof (T), CultureInfo.InvariantCulture);
+            }
+            catch
+            {
+                retVal = @default;
+            }
+            return retVal;
+        }
+
+        [CompilerGenerated]
+        private static T ParseEnum<T>(string value, T @default)
+            where T : struct, IConvertible
+        {
+            var exists = string.IsNullOrEmpty(value)
+                ? false
+                : Enum.IsDefined(typeof (T), value);
+            return exists
+                ? (T) Enum.Parse(typeof (T), value)
+                : @default;
+        }
+
+        #endregion
+    }
+}
+<#+
+    private string GetValue(Property p) 
+    {
+
+        string name = p.Name;
+        object val = p.Value;
+
+        var type = val.GetType();
+        
+        if(type.IsEnum){
+            return string.Format("{0}.{1}", type.Name, val);
+        }
+        else
+        {
+            var ic = CultureInfo.InvariantCulture;
+            if(val is float)
+                return string.Format("{0}f",  Convert.ToString(val, ic));
+            else if (val is string)
+                return string.Format("\"{0}\"", Convert.ToString(val, ic));
+            else
+                return string.Format("{0}",  Convert.ToString(val, ic));
+        }
+    }
+
+    private void GenerateConfigs(List<Property> props)
+    {
+        WriteLine("#region Initialization\r\n");
+        CGAttribute(true);
+        WriteLine("private void InitConfig() {");
+        PushIndent("    ");
+        WriteLine("bool changed = false;");
+        foreach(var p in props){
+            string name = p.Name;
+            WriteLine("changed |= InitConfig(\"Config\", \"{0}\", {1});", name,GetValue(p));
+        }
+        WriteLine("if(changed)\r\n\tSaveConfig();");
+        PopIndent();
+        WriteLine("}");
+        WriteLine("\r\n#endregion");
+    }
+
+    private void GenerateProperty(List<Property> props)
+    {
+        WriteLine("#region Properties");
+        foreach(var p in props)
+        {
+            string name = p.Name;
+            object val = p.Value;
+            Type type = val.GetType();
+             
+            Write("\r\n");
+            CGAttribute(true);
+            Write("public {0} {1} => ", type.Name, name);
+            if(type.IsEnum)
+                WriteLine("ParseEnum(Preferences[\"Config\"][\"{0}\"].Value, {1});",name, GetValue(p));
+            else if(typeof(IConvertible).IsAssignableFrom(type)) 
+                WriteLine("ParseConvertible(Preferences[\"Config\"][\"{0}\"].Value, {1});",name, GetValue(p));
+        }
+        WriteLine("\r\n#endregion");
+    }
+
+    private void CGAttribute(bool nl){
+        if(nl)
+            WriteLine("[CompilerGenerated]");
+        else
+            Write("[CompilerGenerated] ");
+    }
+
+    private class Property {
+        public object Value { get; set; }
+        public string Name { get; set; }
+        public Type Type { get { return Value.GetType(); } }
+        public bool IsEnum { get { return Type.IsEnum; } }
+
+        public Property(string name, object value){
+            Value = value;
+            Name = name;
+        }
+    }
+#>

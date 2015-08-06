@@ -39,9 +39,11 @@
       <HintPath>..\..\..\ExIni\Releases\ExIni_1.0.2.1\ExIni.dll</HintPath>
       <Private>False</Private>
     </Reference>
+    <Reference Include="System" />
     <Reference Include="System.Core" />
-    <Reference Include="UnityEngine">
-      <HintPath>F:\KISS\CM3D2\CM3D2x64_Data\Managed\UnityEngine.dll</HintPath>
+    <Reference Include="UnityEngine, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>C:\Program Files\Unity\Editor\Data\Managed\UnityEngine.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="UnityInjector, Version=1.0.0.1, Culture=neutral, processorArchitecture=x86">
@@ -51,10 +53,23 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CameraControlExPlugin.Config.cs" />
-    <Compile Include="CameraControlExPlugin.Properties.cs" />
     <Compile Include="CameraControlExPlugin.cs" />
+    <Compile Include="CameraControlExPlugin.Generated.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>CameraControlExPlugin.Generated.tt</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="PluginConfigTemplate.tt" />
+    <None Include="CameraControlExPlugin.Generated.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>CameraControlExPlugin.Generated.cs</LastGenOutput>
+    </None>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

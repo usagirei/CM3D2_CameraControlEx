@@ -27,9 +27,23 @@ namespace CM3D2.CameraControlEx.Plugin
         public UltimateOrbitCamera OrbitCamera { get; private set; }
         private float DefaultDistance { get; set; }
         private float DefaultFOV { get; set; }
+        private Maid.EyeMoveType EyeToCamMode { get; set; } = Maid.EyeMoveType.無視する;
+        private bool FineTuneMode { get; set; }
         private bool FirstUpdate { get; set; }
         private Vector3 OriginalPosition { get; set; }
         private Quaternion OriginalRotation { get; set; }
+
+        private float TrueFOVChange => FineTuneMode
+            ? FOVChange / 10
+            : FOVChange;
+
+        private float TrueMoveRate => FineTuneMode
+            ? MoveRate / 10
+            : MoveRate;
+
+        private float TrueSpinRate => FineTuneMode
+            ? SpinRate / 10
+            : SpinRate;
 
         #endregion
 
@@ -58,19 +72,20 @@ namespace CM3D2.CameraControlEx.Plugin
 
         public void Update()
         {
-            if (OrbitCamera?.camera == null)
+            if (OrbitCamera?.GetComponent<Camera>() == null)
                 return;
 
             if (FirstUpdate)
             {
+                var cameraComponent = OrbitCamera.GetComponent<Camera>();
                 OriginalPosition = OrbitCamera.target.position;
-                OriginalRotation = OrbitCamera.camera.transform.rotation;
+                OriginalRotation = cameraComponent.transform.rotation;
                 DefaultDistance = OrbitCamera.distance;
 
                 if (FOV > 0)
-                    OrbitCamera.camera.fieldOfView = FOV;
-                DefaultFOV = OrbitCamera.camera.fieldOfView;
-                Console.WriteLine("Setting FOV: " + OrbitCamera.camera.fieldOfView);
+                    cameraComponent.fieldOfView = FOV;
+                DefaultFOV = cameraComponent.fieldOfView;
+                Console.WriteLine("Setting FOV: " + cameraComponent.fieldOfView);
                 FirstUpdate = false;
             }
 
@@ -80,22 +95,6 @@ namespace CM3D2.CameraControlEx.Plugin
                 HandleRotation();
             else
                 HandleMovement();
-
-        }
-
-        #endregion
-
-        #region Public Static Methods
-
-        public static T ParseEnum<T>(string value, T @default = default(T))
-            where T : struct, IConvertible
-        {
-            var exists = string.IsNullOrEmpty(value)
-                ? false
-                : Enum.IsDefined(typeof (T), value);
-            return exists
-                ? (T) Enum.Parse(typeof (T), value)
-                : @default;
         }
 
         #endregion
@@ -104,27 +103,41 @@ namespace CM3D2.CameraControlEx.Plugin
 
         private void HandleHotkeys()
         {
+            var cameraComponent = OrbitCamera.GetComponent<Camera>();
+
+            if (Input.GetKeyDown(ToggleFine))
+                FineTuneMode ^= true;
+
             if (Input.GetKey(ZoomIn))
             {
                 if (Input.GetKey(Modifier))
-                    OrbitCamera.SetDistance(OrbitCamera.distance - MoveRate);
+                    OrbitCamera.SetDistance(OrbitCamera.distance - TrueMoveRate);
                 else
-                    OrbitCamera.camera.fieldOfView -= 0.25f;
+                    cameraComponent.fieldOfView -= TrueFOVChange;
             }
             else if (Input.GetKey(ZoomOut))
             {
                 if (Input.GetKey(Modifier))
-                    OrbitCamera.SetDistance(OrbitCamera.distance + MoveRate);
+                    OrbitCamera.SetDistance(OrbitCamera.distance + TrueMoveRate);
                 else
-                    OrbitCamera.camera.fieldOfView += 0.25f;
+                    cameraComponent.fieldOfView += TrueFOVChange;
+            }
+
+            if (Input.GetKeyDown(EyeToCam))
+            {
+                if (GameMain.Instance.CharacterMgr.GetMaidCount() > 0)
+                {
+                    GameMain.Instance.CharacterMgr.GetMaid(0).EyeToCamera(EyeToCamMode, 0.8f);
+                    EyeToCamMode = EyeToCamMode.NextEnum(1);
+                }
             }
 
             if (Input.GetKey(FOVReset))
             {
-                OrbitCamera.camera.fieldOfView = DefaultFOV;
+                cameraComponent.fieldOfView = DefaultFOV;
             }
 
-            if (Input.GetKey(ScreenShot))
+            if (Input.GetKeyDown(Screenshot))
             {
                 MainCamera.ScreenShot(Input.GetKey(Modifier));
             }
@@ -133,7 +146,7 @@ namespace CM3D2.CameraControlEx.Plugin
             {
                 if (Input.GetKey(Modifier))
                 {
-                    OrbitCamera.camera.transform.rotation = OriginalRotation;
+                    cameraComponent.transform.rotation = OriginalRotation;
                     OrbitCamera.SetDistance(DefaultDistance);
                 }
                 else
@@ -150,63 +163,81 @@ namespace CM3D2.CameraControlEx.Plugin
 
             if (Input.GetKey(MoveLeft))
             {
-                pos += rot * Vector3.left * MoveRate;
+                pos += rot * Vector3.left * TrueMoveRate;
             }
             else if (Input.GetKey(MoveRight))
             {
-                pos += rot * Vector3.right * MoveRate;
+                pos += rot * Vector3.right * TrueMoveRate;
             }
 
             if (Input.GetKey(MoveForward))
             {
-                pos += rot * Vector3.forward * MoveRate;
+                pos += rot * Vector3.forward * TrueMoveRate;
             }
             else if (Input.GetKey(MoveBackward))
             {
-                pos += rot * Vector3.back * MoveRate;
+                pos += rot * Vector3.back * TrueMoveRate;
             }
 
             if (Input.GetKey(MoveUp))
             {
-                pos += Vector3.up * MoveRate;
+                pos += Vector3.up * TrueMoveRate;
             }
             else if (Input.GetKey(MoveDown))
             {
-                pos += Vector3.down * MoveRate;
+                pos += Vector3.down * TrueMoveRate;
             }
             OrbitCamera.SetTargetPos(pos);
         }
 
         private void HandleRotation()
         {
-
+            var cameraComponent = OrbitCamera.GetComponent<Camera>();
             if (Input.GetKey(MoveLeft))
             {
-                OrbitCamera.camera.transform.Rotate(0, SpinRate, 0);
+                cameraComponent.transform.Rotate(0, TrueSpinRate, 0);
             }
             else if (Input.GetKey(MoveRight))
             {
-                OrbitCamera.camera.transform.Rotate(0, -SpinRate, 0);
+                cameraComponent.transform.Rotate(0, -TrueSpinRate, 0);
             }
 
             if (Input.GetKey(MoveForward))
             {
-                OrbitCamera.camera.transform.Rotate(SpinRate, 0, 0);
+                cameraComponent.transform.Rotate(TrueSpinRate, 0, 0);
             }
             else if (Input.GetKey(MoveBackward))
             {
-                OrbitCamera.camera.transform.Rotate(-SpinRate, 0, 0);
+                cameraComponent.transform.Rotate(-TrueSpinRate, 0, 0);
             }
 
             if (Input.GetKey(MoveUp))
             {
-                OrbitCamera.camera.transform.Rotate(0, 0, -SpinRate);
+                cameraComponent.transform.Rotate(0, 0, -TrueSpinRate);
             }
             else if (Input.GetKey(MoveDown))
             {
-                OrbitCamera.camera.transform.Rotate(0, 0, SpinRate);
+                cameraComponent.transform.Rotate(0, 0, TrueSpinRate);
             }
+        }
 
+        #endregion
+    }
+
+    public static class Extensions
+    {
+        #region Public Static Methods
+
+        public static T NextEnum<T>(this T value, int start = 0) where T : struct
+        {
+            if (!typeof (T).IsEnum)
+                throw new ArgumentException($"Argumnent {typeof (T).FullName} is not an Enum");
+
+            var array = (T[]) Enum.GetValues(value.GetType());
+            var j = Array.IndexOf(array, value) + 1;
+            return (array.Length == j)
+                ? array[start]
+                : array[j];
         }
 
         #endregion

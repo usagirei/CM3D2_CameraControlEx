@@ -11,20 +11,22 @@ Usage:
 Default Keybinds:
 
 LeftAlt        = Modifier
+KeypadDivide   = Toggle Fine Tune
+KeyPadPeriod   = Cycle Eye to Camera Modes
 
-Numpad4        = Move Left               | Orbit Left
-Numpad6        = Move Right              | Orbit Right
-Numpad8        = Move Forward            | Orbit Up
-Numpad2        = Move Backward           | Orbit Down
+Numpad4        = Move Left                 | Orbit Left
+Numpad6        = Move Right                | Orbit Right
+Numpad8        = Move Forward              | Orbit Up
+Numpad2        = Move Backward             | Orbit Down
 
-Numpad1        = Move Down               | Roll Left
-Numpad3        = Move Up                 | Roll Right
+Numpad1        = Move Down                 | Roll Left
+Numpad3        = Move Up                   | Roll Right
 
-NumpadPlus     = Fov Decrease (Zoom In)  | Orbit Distance Increase
-NumpadMinus    = Fov Increase (Zoom Out) | Orbit Distance Decrease
+NumpadPlus     = Fov Decrease (Zoom In)    | Orbit Distance Increase
+NumpadMinus    = Fov Increase (Zoom Out)   | Orbit Distance Decrease
 
-Numpad5        = Reset Translation       | Reset Rotation
+Numpad5        = Reset Translation         | Reset Rotation
 NumpadMultiply = Reset FOV
-Keypad0        = ScreenShot              | ScreenShot (No UI)
+Keypad0        = ScreenShot                | ScreenShot (No UI)
 
 Change Keybinds and Rotation/Movement Speed in in the Configuration File "UnityInjector\Config\CameraControlExPlugin.ini"
