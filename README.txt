@@ -13,7 +13,7 @@ Default Keybinds:
 LeftAlt        = Modifier
 
 Numpad4        = Move Left               | Orbit Left
-Numpad6        = Move Right              | Orbit Left
+Numpad6        = Move Right              | Orbit Right
 Numpad8        = Move Forward            | Orbit Up
 Numpad2        = Move Backward           | Orbit Down
 

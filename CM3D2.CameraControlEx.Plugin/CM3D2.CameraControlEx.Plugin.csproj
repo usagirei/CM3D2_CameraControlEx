@@ -34,8 +34,9 @@
       <HintPath>F:\KISS\CM3D2\CM3D2x64_Data\Managed\Assembly-CSharp.dll</HintPath>
       <Private>False</Private>
     </Reference>
-    <Reference Include="ExIni">
-      <HintPath>..\..\..\ExIni\Releases\ExIni_1.0.2\ExIni.dll</HintPath>
+    <Reference Include="ExIni, Version=1.0.2.0, Culture=neutral, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\ExIni\Releases\ExIni_1.0.2.1\ExIni.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="System.Core" />
@@ -45,7 +46,7 @@
     </Reference>
     <Reference Include="UnityInjector, Version=1.0.0.1, Culture=neutral, processorArchitecture=x86">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\UnityInjector\Releases\1.0.1.0\Managed\UnityInjector.dll</HintPath>
+      <HintPath>..\..\UnityInjector\Build\UnityInjector.dll</HintPath>
       <Private>False</Private>
     </Reference>
   </ItemGroup>

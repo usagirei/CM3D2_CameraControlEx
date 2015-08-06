@@ -13,6 +13,6 @@ if not exist "%MSBUILD%\msbuild.exe" (
 echo ---------- Cleaning Solution
 del Build\* /q /s
 echo ---------- Building Solution
-msbuild.exe CM3D2.CameraControlEx.Plugin\CM3D2.CameraControlEx.Plugin.csproj /p:Platform=x86,OutputPath=../Build
+msbuild.exe CM3D2.CameraControlEx.Plugin\CM3D2.CameraControlEx.Plugin.csproj /p:OutputPath=../Build,Configuration=Release
 :end
 pause
