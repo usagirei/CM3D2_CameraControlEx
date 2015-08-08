@@ -53,12 +53,15 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CameraControlExPlugin.Properties.cs" />
+    <Compile Include="CameraControlExPlugin.Unity.cs" />
     <Compile Include="CameraControlExPlugin.cs" />
     <Compile Include="CameraControlExPlugin.Generated.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>CameraControlExPlugin.Generated.tt</DependentUpon>
     </Compile>
+    <Compile Include="Extensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

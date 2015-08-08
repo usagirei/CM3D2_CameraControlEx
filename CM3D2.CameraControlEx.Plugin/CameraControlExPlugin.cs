@@ -1,16 +1,11 @@
 ﻿// --------------------------------------------------
-// CM3D2.CameraControlEx.Plugin - CameraControlExPlugin.cs
+// CM3D2_CameraControlEx - CameraControlExPlugin.cs
 // --------------------------------------------------
 
-#region Usings
-
-using System;
-using System.Reflection;
 using UnityEngine;
+
 using UnityInjector;
 using UnityInjector.Attributes;
-
-#endregion
 
 namespace CM3D2.CameraControlEx.Plugin
 {
@@ -22,85 +17,10 @@ namespace CM3D2.CameraControlEx.Plugin
     // [PluginFilter("CM3D2VRx64")]
     public partial class CameraControlExPlugin : PluginBase
     {
-        #region Properties
-
-        public CameraMain MainCamera { get; private set; }
-        public UltimateOrbitCamera OrbitCamera { get; private set; }
-        private float DefaultDistance { get; set; }
-        private float DefaultFOV { get; set; }
-        private Maid.EyeMoveType EyeToCamMode { get; set; } = Maid.EyeMoveType.無視する;
-        private bool FineTuneMode { get; set; }
-        private bool FirstUpdate { get; set; }
-        private Vector3 OriginalPosition { get; set; }
-        private Quaternion OriginalRotation { get; set; }
-
-        private float TrueFOVChange => FineTuneMode
-            ? FOVChange / 10
-            : FOVChange;
-
-        private float TrueMoveRate => FineTuneMode
-            ? MoveRate / 10
-            : MoveRate;
-
-        private float TrueSpinRate => FineTuneMode
-            ? SpinRate / 10
-            : SpinRate;
-
-        #endregion
-
-        #region (De)Constructors
-
         public CameraControlExPlugin()
         {
             InitConfig();
         }
-
-        #endregion
-
-        #region Public Methods
-
-        public void OnLevelWasLoaded(int level)
-        {
-            FirstUpdate = true;
-        }
-
-        public void Start()
-        {
-            var fld = typeof (CameraMain).GetField("m_UOCamera", BindingFlags.NonPublic | BindingFlags.Instance);
-            OrbitCamera = (UltimateOrbitCamera) fld.GetValue(GameMain.Instance.MainCamera);
-            MainCamera = GameMain.Instance.MainCamera;
-        }
-
-        public void Update()
-        {
-            if (OrbitCamera?.GetComponent<Camera>() == null)
-                return;
-
-            if (FirstUpdate)
-            {
-                var cameraComponent = OrbitCamera.GetComponent<Camera>();
-                OriginalPosition = OrbitCamera.target.position;
-                OriginalRotation = cameraComponent.transform.rotation;
-                DefaultDistance = OrbitCamera.distance;
-
-                if (FOV > 0)
-                    cameraComponent.fieldOfView = FOV;
-                DefaultFOV = cameraComponent.fieldOfView;
-                Console.WriteLine("Setting FOV: " + cameraComponent.fieldOfView);
-                FirstUpdate = false;
-            }
-
-            HandleHotkeys();
-
-            if (Input.GetKey(Modifier))
-                HandleRotation();
-            else
-                HandleMovement();
-        }
-
-        #endregion
-
-        #region Methods
 
         private void HandleHotkeys()
         {
@@ -222,25 +142,6 @@ namespace CM3D2.CameraControlEx.Plugin
             }
         }
 
-        #endregion
-    }
-
-    public static class Extensions
-    {
-        #region Public Static Methods
-
-        public static T NextEnum<T>(this T value, int start = 0) where T : struct
-        {
-            if (!typeof (T).IsEnum)
-                throw new ArgumentException($"Argumnent {typeof (T).FullName} is not an Enum");
-
-            var array = (T[]) Enum.GetValues(value.GetType());
-            var j = Array.IndexOf(array, value) + 1;
-            return (array.Length == j)
-                ? array[start]
-                : array[j];
-        }
-
-        #endregion
+        partial void InitConfig();
     }
 }

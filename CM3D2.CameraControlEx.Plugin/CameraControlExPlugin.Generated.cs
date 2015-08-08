@@ -15,10 +15,8 @@ namespace CM3D2.CameraControlEx.Plugin
 {
     partial class CameraControlExPlugin
     {
-        #region Initialization
-
         [CompilerGenerated]
-        private void InitConfig() {
+        partial void InitConfig() {
             bool changed = false;
             changed |= InitConfig("Config", "EyeToCam", KeyCode.KeypadPeriod);
             changed |= InitConfig("Config", "FOVReset", KeyCode.KeypadMultiply);
@@ -42,67 +40,59 @@ namespace CM3D2.CameraControlEx.Plugin
             	SaveConfig();
         }
         
-        #endregion
-        
-        #region Properties
+        [CompilerGenerated]
+        private KeyCode EyeToCam => ParseEnum(Preferences["Config"]["EyeToCam"].Value, KeyCode.KeypadPeriod);
         
         [CompilerGenerated]
-        public KeyCode EyeToCam => ParseEnum(Preferences["Config"]["EyeToCam"].Value, KeyCode.KeypadPeriod);
+        private KeyCode FOVReset => ParseEnum(Preferences["Config"]["FOVReset"].Value, KeyCode.KeypadMultiply);
         
         [CompilerGenerated]
-        public KeyCode FOVReset => ParseEnum(Preferences["Config"]["FOVReset"].Value, KeyCode.KeypadMultiply);
+        private KeyCode Modifier => ParseEnum(Preferences["Config"]["Modifier"].Value, KeyCode.LeftAlt);
         
         [CompilerGenerated]
-        public KeyCode Modifier => ParseEnum(Preferences["Config"]["Modifier"].Value, KeyCode.LeftAlt);
+        private KeyCode MoveBackward => ParseEnum(Preferences["Config"]["MoveBackward"].Value, KeyCode.Keypad2);
         
         [CompilerGenerated]
-        public KeyCode MoveBackward => ParseEnum(Preferences["Config"]["MoveBackward"].Value, KeyCode.Keypad2);
+        private KeyCode MoveDown => ParseEnum(Preferences["Config"]["MoveDown"].Value, KeyCode.Keypad1);
         
         [CompilerGenerated]
-        public KeyCode MoveDown => ParseEnum(Preferences["Config"]["MoveDown"].Value, KeyCode.Keypad1);
+        private KeyCode MoveForward => ParseEnum(Preferences["Config"]["MoveForward"].Value, KeyCode.Keypad8);
         
         [CompilerGenerated]
-        public KeyCode MoveForward => ParseEnum(Preferences["Config"]["MoveForward"].Value, KeyCode.Keypad8);
+        private KeyCode MoveLeft => ParseEnum(Preferences["Config"]["MoveLeft"].Value, KeyCode.Keypad4);
         
         [CompilerGenerated]
-        public KeyCode MoveLeft => ParseEnum(Preferences["Config"]["MoveLeft"].Value, KeyCode.Keypad4);
+        private KeyCode MoveRight => ParseEnum(Preferences["Config"]["MoveRight"].Value, KeyCode.Keypad6);
         
         [CompilerGenerated]
-        public KeyCode MoveRight => ParseEnum(Preferences["Config"]["MoveRight"].Value, KeyCode.Keypad6);
+        private KeyCode MoveUp => ParseEnum(Preferences["Config"]["MoveUp"].Value, KeyCode.Keypad3);
         
         [CompilerGenerated]
-        public KeyCode MoveUp => ParseEnum(Preferences["Config"]["MoveUp"].Value, KeyCode.Keypad3);
+        private KeyCode Reset => ParseEnum(Preferences["Config"]["Reset"].Value, KeyCode.Keypad5);
         
         [CompilerGenerated]
-        public KeyCode Reset => ParseEnum(Preferences["Config"]["Reset"].Value, KeyCode.Keypad5);
+        private KeyCode Screenshot => ParseEnum(Preferences["Config"]["Screenshot"].Value, KeyCode.Keypad0);
         
         [CompilerGenerated]
-        public KeyCode Screenshot => ParseEnum(Preferences["Config"]["Screenshot"].Value, KeyCode.Keypad0);
+        private KeyCode ToggleFine => ParseEnum(Preferences["Config"]["ToggleFine"].Value, KeyCode.KeypadDivide);
         
         [CompilerGenerated]
-        public KeyCode ToggleFine => ParseEnum(Preferences["Config"]["ToggleFine"].Value, KeyCode.KeypadDivide);
+        private KeyCode ZoomIn => ParseEnum(Preferences["Config"]["ZoomIn"].Value, KeyCode.KeypadPlus);
         
         [CompilerGenerated]
-        public KeyCode ZoomIn => ParseEnum(Preferences["Config"]["ZoomIn"].Value, KeyCode.KeypadPlus);
+        private KeyCode ZoomOut => ParseEnum(Preferences["Config"]["ZoomOut"].Value, KeyCode.KeypadMinus);
         
         [CompilerGenerated]
-        public KeyCode ZoomOut => ParseEnum(Preferences["Config"]["ZoomOut"].Value, KeyCode.KeypadMinus);
+        private Single FOV => ParseConvertible(Preferences["Config"]["FOV"].Value, -1f);
         
         [CompilerGenerated]
-        public Single FOV => ParseConvertible(Preferences["Config"]["FOV"].Value, -1f);
+        private Single FOVChange => ParseConvertible(Preferences["Config"]["FOVChange"].Value, 0.25f);
         
         [CompilerGenerated]
-        public Single FOVChange => ParseConvertible(Preferences["Config"]["FOVChange"].Value, 0.25f);
+        private Single MoveRate => ParseConvertible(Preferences["Config"]["MoveRate"].Value, 0.05f);
         
         [CompilerGenerated]
-        public Single MoveRate => ParseConvertible(Preferences["Config"]["MoveRate"].Value, 0.05f);
-        
-        [CompilerGenerated]
-        public Single SpinRate => ParseConvertible(Preferences["Config"]["SpinRate"].Value, 1f);
-        
-        #endregion
-
-        #region Helper Methods
+        private Single SpinRate => ParseConvertible(Preferences["Config"]["SpinRate"].Value, 1f);
 
         [CompilerGenerated]
         private bool InitConfig(string section, string key, object value)
@@ -144,6 +134,6 @@ namespace CM3D2.CameraControlEx.Plugin
                 : @default;
         }
 
-        #endregion
+ 
     }
 }
