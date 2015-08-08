@@ -1,7 +1,7 @@
 <#@ template language="C#" hostspecific="true" #>
 <#@ output extension=".cs" #>
 <# /* Change Unity Engine Path */ #>
-<#@ assembly name="C:\Program Files\Unity\Editor\Data\Managed\UnityEngine.dll" #>
+<#@ assembly name="$(SolutionDir)References\UnityEngine.dll" #>
 <# /* ------------------------ */ #>
 <#@ import namespace="System" #>
 <#@ import namespace="UnityEngine" #>

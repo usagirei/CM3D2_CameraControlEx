@@ -17,8 +17,9 @@ namespace CM3D2.CameraControlEx.Plugin
     [PluginName("Extended Camera Controls")]
     [PluginFilter("CM3D2x64")]
     [PluginFilter("CM3D2x86")]
-    [PluginFilter("CM3D2VRx86")]
-    [PluginFilter("CM3D2VRx64")]
+    // Apparently Doesn't quite work with VR Version
+    // [PluginFilter("CM3D2VRx86")]
+    // [PluginFilter("CM3D2VRx64")]
     public partial class CameraControlExPlugin : PluginBase
     {
         #region Properties
@@ -158,7 +159,7 @@ namespace CM3D2.CameraControlEx.Plugin
 
         private void HandleMovement()
         {
-            Vector3 pos = OrbitCamera.target.position;
+            var pos = OrbitCamera.target.position;
             var rot = OrbitCamera.transform.rotation;
 
             if (Input.GetKey(MoveLeft))

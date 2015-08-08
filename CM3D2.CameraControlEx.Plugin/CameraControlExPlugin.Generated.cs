@@ -1,5 +1,5 @@
 // ------------------------------------
-// Auto-Generated with T4 Templating by Microsoft Visual Studio 14.0
+// Auto-Generated with T4 Templating on Microsoft Visual Studio 14.0
 // Template File: CameraControlExPlugin.Generated.tt
 // ------------------------------------
 // Install T4 Toolbox if having troubles
