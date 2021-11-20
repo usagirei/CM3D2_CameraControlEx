@@ -102,6 +102,9 @@
     </PropertyGroup>
     <Error Condition="!Exists('..\packages\BepInEx.Core.5.4.16\build\BepInEx.Core.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\BepInEx.Core.5.4.16\build\BepInEx.Core.targets'))" />
   </Target>
+  <PropertyGroup>
+    <PostBuildEvent>copy "$(TargetPath)" "F:\COM-3d2\BepinEx\plugins\"</PostBuildEvent>
+  </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

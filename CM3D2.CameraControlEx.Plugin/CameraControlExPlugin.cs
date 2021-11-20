@@ -8,14 +8,9 @@ using BepInEx;
 
 namespace COM3D2.CameraControlEx.Plugin
 {
-    [BepInPlugin("org.bepinex.plugins.COM3D2.CameraControlEx", "CameraControlEx", "1.1.0.0")]
+    [BepInPlugin("CameraControlExPlugin", "CameraControlEx", "1.1.0.0")]
     public partial class CameraControlExPlugin : BaseUnityPlugin
     {
-        public CameraControlExPlugin()
-        {
-            InitConfig();
-        }
-
         private void HandleHotkeys()
         {
             var cameraComponent = OrbitCamera.GetComponent<Camera>();
