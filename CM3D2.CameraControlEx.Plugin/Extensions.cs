@@ -4,7 +4,7 @@
 
 using System;
 
-namespace CM3D2.CameraControlEx.Plugin
+namespace COM3D2.CameraControlEx.Plugin
 {
     public static class Extensions
     {

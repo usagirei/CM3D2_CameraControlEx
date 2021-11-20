@@ -7,7 +7,7 @@ using System.Reflection;
 
 using UnityEngine;
 
-namespace CM3D2.CameraControlEx.Plugin
+namespace COM3D2.CameraControlEx.Plugin
 {
     partial class CameraControlExPlugin
     {

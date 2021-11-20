@@ -1,17 +1,11 @@
 ### Installing
 
-* Place the Contents of the 'Managed' Directory into the Game 'CM3D2(x86|x64)_Data\Managed' Directory
-* Place the Contents of the 'ReiPatcher' Directory into the ReiPatcher 'Patches' Directory
-  Not the Root Directory! The Patches Directory!
-* Place the Contents of the 'UnityInjector' Directory into the 'UnityInjector' Directory at the **root** of the Game Directory, alongside the Game Exe and Data Directory
+* Place `COM3D2.CameraControlEx.Plugin.dll` file into your BepinEx plugins folder. This is usually in `BepinEx\plugins`.
+* If you have the old Sybaris version `CM3D2.CameraControlEx.Plugin`, remove it (or uninstall it via CMI if it was installed that way)
 
 ---
 ### Building
-1. Add the Reference Assemblies to the "References" Directory (using symbolic links, or by copying the files):
-* UnityEngine.dll (From Either Unity or CM3D2)
-* Assembly-CSharp.dll (From CM3D2)
-* UnityInjector.dll
-* ExIni.dll
+1. Fetch nuget packages.
 2. If Changes were made to the Plugin Configuration T4 Template, Save it so your IDE Regenerates it.
 3. Compile via your IDE or by executing "Build.bat" in the project root
 
@@ -36,4 +30,4 @@
 | NumpadMultiply | Reset FOV                 |                         |
 | Keypad0        | ScreenShot                | ScreenShot (No UI)      |
 
-*Change Keybinds and Rotation/Movement Speed in in the Configuration File "UnityInjector\Config\CameraControlExPlugin.ini"*
+*Change Keybinds and Rotation/Movement Speed in in the Configuration File `BepinEx\config\org.bepinex.plugins.COM3D2.CameraControlEx.cfg`*

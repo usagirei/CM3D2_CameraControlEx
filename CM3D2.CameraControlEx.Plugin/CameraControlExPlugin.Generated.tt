@@ -1,7 +1,7 @@
 <#@ template language="C#" hostspecific="true" #>
 <#@ output extension=".cs" #>
 <# /* Change Unity Engine Path */ #>
-<#@ assembly name="$(SolutionDir)References\UnityEngine.dll" #>
+<#@ assembly name="$(SolutionDir)packages\UnityEngine.5.6.1\lib\net35\UnityEngine.dll" #>
 <# /* ------------------------ */ #>
 <#@ import namespace="System" #>
 <#@ import namespace="UnityEngine" #>
@@ -25,7 +25,7 @@
     Properties.Add("Modifier", KeyCode.LeftAlt);
     Properties.Add("Screenshot", KeyCode.Keypad0);
     Properties.Add("Reset", KeyCode.Keypad5);
-
+       
     Properties.Add("MoveUp", KeyCode.Keypad3);
     Properties.Add("MoveDown", KeyCode.Keypad1);
     Properties.Add("MoveLeft", KeyCode.Keypad4);

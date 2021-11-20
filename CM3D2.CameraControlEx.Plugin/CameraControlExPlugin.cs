@@ -4,18 +4,12 @@
 
 using UnityEngine;
 
-using UnityInjector;
-using UnityInjector.Attributes;
+using BepInEx;
 
-namespace CM3D2.CameraControlEx.Plugin
+namespace COM3D2.CameraControlEx.Plugin
 {
-    [PluginName("Extended Camera Controls")]
-    [PluginFilter("CM3D2x64")]
-    [PluginFilter("CM3D2x86")]
-    // Apparently Doesn't quite work with VR Version
-    // [PluginFilter("CM3D2VRx86")]
-    // [PluginFilter("CM3D2VRx64")]
-    public partial class CameraControlExPlugin : PluginBase
+    [BepInPlugin("org.bepinex.plugins.COM3D2.CameraControlEx", "CameraControlEx", "1.1.0.0")]
+    public partial class CameraControlExPlugin : BaseUnityPlugin
     {
         public CameraControlExPlugin()
         {
