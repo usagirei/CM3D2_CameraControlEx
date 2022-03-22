@@ -4,15 +4,27 @@
 
 using System;
 using System.Reflection;
+using System.IO;
 
 using UnityEngine;
+using BepInEx;
+using BepInEx.Configuration;
+using HarmonyLib;
+using HarmonyLib.Tools;
 
-namespace CM3D2.CameraControlEx.Plugin
+namespace COM3D2.CameraControlEx.Plugin
 {
     partial class CameraControlExPlugin
     {
+        public void Awake()
+        {
+            OldConfigCheck();
+            InitConfig();
+        }
+
         public void OnLevelWasLoaded(int level)
         {
+            SybarisCheck();
             FirstUpdate = true;
         }
 
@@ -48,6 +60,36 @@ namespace CM3D2.CameraControlEx.Plugin
                 HandleRotation();
             else
                 HandleMovement();
+        }
+
+        private void OldConfigCheck()
+        {
+            var oldConfigPath = Path.Combine(Paths.GameRootPath, "Sybaris\\UnityInjector\\Config\\CameraControlExPlugin.ini");
+            if (File.Exists(oldConfigPath))
+            {
+                Logger.LogWarning($"Detected old sybaris configuration at [{oldConfigPath}]. Make sure to migrate your configuration to the new configuration path. See plugin README.md for details.");
+                this.transitionalConfigFile = new ConfigFile(oldConfigPath, false);
+            }
+        }
+
+        private void SybarisCheck()
+        {
+            var injector = GameObject.Find("UnityInjector");
+            var component = injector?.GetComponent("CameraControlExPlugin");
+            
+            if(component != null)
+            {
+                var assemblyLocation = component.GetType().Assembly.Location;
+                Logger.LogWarning($"Detected old sybaris plugin at [{assemblyLocation}]. Disabling this plugin but you are advised to uninstall this properly. See plugin README.md for details.");
+                GameObject.Destroy(component);
+            }
+        }
+
+        private ConfigFile transitionalConfigFile;
+
+        new ConfigFile Config
+        {
+            get => transitionalConfigFile ?? base.Config;
         }
     }
 }
